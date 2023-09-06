@@ -1,96 +1,113 @@
 import { LinearGradient } from "expo-linear-gradient";
-import { Text, StyleSheet, View, Pressable} from "react-native";
-import { FontAwesome5 } from '@expo/vector-icons'; 
-import { useState } from "react";
+import { Text, StyleSheet, View, Pressable } from "react-native";
+import { FontAwesome5 } from '@expo/vector-icons';
 
 
 
 
-function LaunchScreen() { 
-    
-    const [isPressed, setIsPressed] = useState(false);
+function LaunchScreen() {
 
-  const handlePressIn = () => {
-    setIsPressed(true);
-  };
 
-  const handlePressOut = () => {
-    setIsPressed(false);
-  };
 
-    
-return (
-    
-    <LinearGradient style={styles.container} colors={['#6495ed','#ffc0cb', '#ff69b4',]}>
-        <View style={styles.titleContainer}>
-            <Text style={styles.titleText}>
-                Wellness App
-            </Text>
-        </View>
-        
-        <View style={styles.mottoContainer}>
-            <Text style={styles.mottoText}>
-                where well-being and fitness unite
-            </Text>
-        </View>
-        <View style={styles.iconContainer}>
-            <FontAwesome5 name="dove" size={80} color="white"/>
-        </View>
-        <View style={styles.buttonContainer}>
-            <Pressable style={[styles.buttonBackground, { backgroundColor: isPressed ? '#ee82ee' : '#dda0dd' }]} onPressIn={handlePressIn}
-          onPressOut={handlePressOut}>
-                <Text style={styles.buttonText}>
-                    GET STARTED
+
+    return (
+
+        <LinearGradient style={styles.container} colors={['#6495ed', '#ffc0cb', '#ff69b4',]}>
+            <View style={styles.titleContainer}>
+                <Text style={styles.titleText}>
+                    Wellness App
                 </Text>
-            </Pressable>
-        </View>
-    </LinearGradient>
-        
-   
-)
+            </View>
+
+            <View style={styles.mottoContainer}>
+                <Text style={styles.mottoText}>
+                    where well-being and fitness unite
+                </Text>
+            </View>
+            <View style={styles.iconContainer}>
+                <FontAwesome5 name="dove" size={80} color="white" />
+            </View>
+            <View style={styles.buttonContainer}>
+                <Pressable android_ripple={{ opacity: 0.5 }} style={({ pressed }) => [styles.button, pressed ? styles.buttonPressed : styles.button]}>
+                    <Text style={styles.buttonText}>
+                        GET STARTED
+                    </Text>
+                </Pressable>
+            </View>
+        </LinearGradient>
+
+
+    )
 }
 
 const styles = StyleSheet.create({
     container: {
-      flex:1,
-      alignItems:'center'
+        flex: 1,
+        alignItems: 'center'
     },
-    titleContainer:{
-        marginTop:160,
+    titleContainer: {
+        marginTop: 160,
     },
-    titleText:{
-        fontSize: 30, 
-        color:'white',
-        fontWeight:'bold'
+    titleText: {
+        fontSize: 30,
+        color: 'white',
+        fontWeight: 'bold',
+        shadowColor: 'grey',
+        shadowOpacity: 1,
+        shadowRadius: 1,
+        shadowOffset: { width: 2, height: 2 },
     },
-    mottoContainer:{
-        marginTop:10
+    mottoContainer: {
+        marginTop: 10
     },
-    mottoText:{
-        fontSize: 20, 
-        color:'white',
-       
+    mottoText: {
+        fontSize: 20,
+        color: 'white',
+        shadowColor: 'grey',
+        shadowOpacity: 1,
+        shadowRadius: 1,
+        shadowOffset: { width: 2, height: 2 },
+
     },
-    iconContainer:{
-        marginTop:150
+    iconContainer: {
+        marginTop: 150
     },
-    buttonContainer:{
-        marginTop:60
+    buttonContainer: {
+        marginTop: 90
     },
-    buttonBackground:{
-        paddingVertical:20,
-        paddingHorizontal:100,
-        borderRadius:40,
-        
-        
+    button: {
+        paddingVertical: 20,
+        paddingHorizontal: 100,
+        borderRadius: 40,
+        elevation: 4,
+        shadowColor: 'white',
+        shadowOpacity: 0.5,
+        shadowOffset: { width: 2, height: 2 },
+        shadowRadius: 15,
+        backgroundColor: '#dda0dd'
     },
-    buttonText:{
-        fontSize:18,
-        color:'white',
-        fontWeight:'bold'
+    buttonPressed: {
+        paddingVertical: 20,
+        paddingHorizontal: 100,
+        borderRadius: 40,
+        elevation: 4,
+        shadowColor: 'white',
+        shadowOpacity: 0.5,
+        shadowOffset: { width: 2, height: 2 },
+        shadowRadius: 15,
+        opacity: 0.5
+    },
+    buttonText: {
+        fontSize: 18,
+        color: 'white',
+        fontWeight: 'bold',
+        shadowColor: 'grey',
+        shadowOpacity: 1,
+        shadowRadius: 1,
+        shadowOffset: { width: 2, height: 2 },
     }
-    
-  });
+
+});
 
 
 export default LaunchScreen;
