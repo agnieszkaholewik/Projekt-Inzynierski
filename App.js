@@ -1,14 +1,16 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import CategoriesScreen from './screens/CategoriesScreen';
 import LaunchScreen from './screens/LaunchScreen';
-import { LinearGradient } from 'expo-linear-gradient';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import {StatusBar} from 'expo-status-bar';
 
 export default function App() {
   return (
-    
-      <LaunchScreen/>
-    
+
+    //<LaunchScreen/>
+    <>
+    <StatusBar style='dark' />
+    <CategoriesScreen />
+    </>
+
   );
 }
 
