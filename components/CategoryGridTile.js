@@ -29,9 +29,9 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         elevation: 8,
         shadowColor: 'black',
-        shadowOpacity: 0.3,
+        shadowOpacity: 0.5,
         shadowOffset: { width: 0, height: 2 },
-        shadowRadius: 10,
+        shadowRadius: 5,
         backgroundColor:'white',
         overflow: Platform.OS === 'android' ? 'hidden' : 'visible',
         marginHorizontal:30
