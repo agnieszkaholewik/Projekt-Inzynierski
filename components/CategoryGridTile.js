@@ -1,13 +1,14 @@
 import { View, Pressable, Text, StyleSheet, Platform } from 'react-native';
-import { Ionicons } from '@expo/vector-icons'; 
 
-function CategoryGridTile({ title, color}) {
+
+
+function CategoryGridTile({ title, color, icon, onPress}) {
     return (
 
         <View style={styles.gridItem}>
-            <Pressable android_ripple={{ opacity: 0.5 }} style={({ pressed }) => [styles.button, pressed ? styles.buttonPressed : styles.button]}>
+            <Pressable android_ripple={{ opacity: 0.5 }} style={({ pressed }) => [styles.button, pressed ? styles.buttonPressed : styles.button]} onPress={onPress}>
                 <View style={[styles.innerContainer, { backgroundColor: color }]}>
-                    <Text style={styles.title}>{title} <Ionicons name="body" size={24} color="black" /> </Text>
+                    <Text style={styles.title}>{title}  {icon} </Text> 
                 </View>
             </Pressable>
 
@@ -26,7 +27,7 @@ const styles = StyleSheet.create({
         height: 200,
         width: 330,
         borderRadius: 30,
-        elevation: 4,
+        elevation: 8,
         shadowColor: 'black',
         shadowOpacity: 0.3,
         shadowOffset: { width: 0, height: 2 },
@@ -53,9 +54,9 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: '700',
         color: 'white',
-        shadowColor: 'dimgray',
-        shadowOpacity: 1,
-        shadowRadius: 1.7,
-        shadowOffset: { width: 2, height: 2 },
+        textShadowColor: 'dimgray',
+        textShadowRadius: 1.7,
+        textShadowOffset: { width: 2, height: 2 },
+        
     }
 });

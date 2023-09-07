@@ -1,13 +1,14 @@
 import { LinearGradient } from "expo-linear-gradient";
-import { Text, StyleSheet, View, Pressable } from "react-native";
+import { Text, StyleSheet, View, Pressable, Platform } from "react-native";
 import { FontAwesome5 } from '@expo/vector-icons';
 
 
 
+function LaunchScreen({navigation}) {
 
-function LaunchScreen() {
-
-
+    function pressHandler() {
+        navigation.navigate('CategoriesScreen');
+    }
 
 
     return (
@@ -28,7 +29,7 @@ function LaunchScreen() {
                 <FontAwesome5 name="dove" size={80} color="white" />
             </View>
             <View style={styles.buttonContainer}>
-                <Pressable android_ripple={{ opacity: 0.5 }} style={({ pressed }) => [styles.button, pressed ? styles.buttonPressed : styles.button]}>
+                <Pressable android_ripple={{ opacity: 0.5 }} style={({ pressed }) => [styles.button, pressed ? styles.buttonPressed : styles.button]} onPress={pressHandler}>
                     <Text style={styles.buttonText}>
                         GET STARTED
                     </Text>
@@ -52,10 +53,10 @@ const styles = StyleSheet.create({
         fontSize: 30,
         color: 'white',
         fontWeight: 'bold',
-        shadowColor: 'grey',
-        shadowOpacity: 1,
-        shadowRadius: 1,
-        shadowOffset: { width: 2, height: 2 },
+        textShadowColor: 'grey',
+        textShadowRadius: 1,
+        textShadowOffset: { width: 2, height: 2 },
+        
     },
     mottoContainer: {
         marginTop: 10
@@ -63,10 +64,9 @@ const styles = StyleSheet.create({
     mottoText: {
         fontSize: 20,
         color: 'white',
-        shadowColor: 'grey',
-        shadowOpacity: 1,
-        shadowRadius: 1,
-        shadowOffset: { width: 2, height: 2 },
+        textShadowColor: 'grey',
+        textShadowRadius: 1,
+        textShadowOffset: { width: 2, height: 2 },
 
     },
     iconContainer: {
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
         paddingVertical: 20,
         paddingHorizontal: 100,
         borderRadius: 40,
-        elevation: 4,
+        elevation: 8,
         shadowColor: 'white',
         shadowOpacity: 0.5,
         shadowOffset: { width: 2, height: 2 },
@@ -101,10 +101,10 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: 'white',
         fontWeight: 'bold',
-        shadowColor: 'grey',
-        shadowOpacity: 1,
-        shadowRadius: 1,
-        shadowOffset: { width: 2, height: 2 },
+        textShadowColor: 'grey',
+        textShadowRadius: 1,
+        textShadowOffset: { width: 2, height: 2 },
+        
     }
 
 });
