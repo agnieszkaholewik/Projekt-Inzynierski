@@ -1,10 +1,17 @@
 import Category from "../models/category";
 import subCategory from "../models/subcategory";
+import { Ionicons } from '@expo/vector-icons'; 
+import { FontAwesome5 } from '@expo/vector-icons';
+
+const bodyIcon=<Ionicons name="body" size={30} color="white" />
+const brainIcon=<FontAwesome5 name="brain" size={30} color="white" />
+const notifIcon=<Ionicons name="notifications" size={30} color="white" />
+
 
 export const CATEGORIES = [
-    new Category('c1', 'Healthy Body', '#ffc0cb'),
-    new Category('c2', 'Healthy Mind', '#dda0dd'),
-    new Category('c3', 'Notifications', '#b0e0e6'),
+    new Category('c1', 'Healthy Body', '#ffc0cb', bodyIcon),
+    new Category('c2', 'Healthy Mind', '#dda0dd', brainIcon),
+    new Category('c3', 'Notifications', '#b0e0e6', notifIcon),
 ];
 
 export const SUBCATEGORIES = [
