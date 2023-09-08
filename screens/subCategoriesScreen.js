@@ -30,7 +30,7 @@ function SubCategoriesScreen({ route, navigation }) {
 
 
     function renderSubCategory(itemData) {
-        return <SubCategoryItem title={itemData.item.title} color={itemData.item.color} icon={itemData.item.icon}/>
+        return <SubCategoryItem title={itemData.item.title} color={itemData.item.color} icon={itemData.item.icon} id={itemData.item.id}/>
     }
 
     function renderSubCategoryIcon(itemData) {

@@ -48,7 +48,9 @@ const styles = StyleSheet.create({
         padding: 16,
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 30
+        borderRadius: 30,
+        borderColor:'black',
+        borderWidth:'0.6',
     },
     title: {
         fontSize: 24,
