@@ -13,13 +13,20 @@ function BMICalculator() {
 
     const calculateBmi = () => {
         const bmi = weight / ((height / 100) * (height / 100))
-        setBmi('Result: '+bmi.toFixed(1))
+        setBmi('Result: ' + bmi.toFixed(1))
         Keyboard.dismiss();
         setResultContainerStyle(styles.resultContainer);
 
 
-        if (!height.trim() || !weight.trim() || height.endsWith(",") || weight.endsWith(",")) {
-            // Display an error message or handle the validation error as needed.
+        if (!/^[0-9,.]+$/.test(height.trim()) ||
+            !/^[0-9,.]+$/.test(weight.trim()) ||
+            height.endsWith(",") ||
+            weight.endsWith(",") || height.endsWith(".") ||
+            weight.endsWith(".")|| height.includes(" ") || weight.includes(" ") ||
+            height.startsWith(",") ||
+            weight.startsWith(",") || height.startsWith(".") ||
+            weight.startsWith(".")) {
+
             return (Alert.alert('Error', 'The data is invalid'),
                 setResult(''), setBmi(''))
         }
@@ -126,7 +133,7 @@ const styles = StyleSheet.create({
     },
     resultContainer: {
         alignItems: 'center',
-        justifyContent:"center"
+        justifyContent: "center"
 
     },
     bmiText: {
@@ -134,9 +141,9 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         color: 'black',
         textAlign: 'left',
-        marginHorizontal:10,
-        
-        
+        marginHorizontal: 10,
+
+
     },
     resultText: {
         fontSize: 20,
@@ -144,14 +151,14 @@ const styles = StyleSheet.create({
         color: 'black',
         textAlign: 'left',
         marginTop: 10,
-        marginHorizontal:20,
-        textAlign:'center'
+        marginHorizontal: 20,
+        textAlign: 'center'
     },
     underweightContainer: {
         backgroundColor: "#FDFFAE",
-        marginHorizontal:20,
+        marginHorizontal: 20,
         borderRadius: 10,
-        height:150,
+        height: 150,
         borderColor: 'black',
         borderWidth: 0.7,
         elevation: 5,
@@ -159,12 +166,12 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.5,
         shadowOffset: { width: 0, height: 2 },
         shadowRadius: 5,
-      },
-      healthyContainer: {
+    },
+    healthyContainer: {
         backgroundColor: "#C4DFAA",
-        marginHorizontal:20,
+        marginHorizontal: 20,
         borderRadius: 10,
-        height:150,
+        height: 150,
         borderColor: 'black',
         borderWidth: 0.7,
         elevation: 5,
@@ -172,12 +179,12 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.5,
         shadowOffset: { width: 0, height: 2 },
         shadowRadius: 5,
-      },
-      overweightContainer: {
+    },
+    overweightContainer: {
         backgroundColor: "#FDFFAE",
-        marginHorizontal:20,
+        marginHorizontal: 20,
         borderRadius: 10,
-        height:150,
+        height: 150,
         borderColor: 'black',
         borderWidth: 0.7,
         elevation: 5,
@@ -185,12 +192,12 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.5,
         shadowOffset: { width: 0, height: 2 },
         shadowRadius: 5,
-      },
-      obeseContainer: {
+    },
+    obeseContainer: {
         backgroundColor: "#F4B183",
-        marginHorizontal:20,
+        marginHorizontal: 20,
         borderRadius: 10,
-        height:150,
+        height: 150,
         borderColor: 'black',
         borderWidth: 0.7,
         elevation: 5,
@@ -198,12 +205,12 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.5,
         shadowOffset: { width: 0, height: 2 },
         shadowRadius: 5,
-      },
-      extremelyObeseContainer: {
+    },
+    extremelyObeseContainer: {
         backgroundColor: "#FF8787",
-        marginHorizontal:20,
+        marginHorizontal: 20,
         borderRadius: 10,
-        height:150,
+        height: 150,
         borderColor: 'black',
         borderWidth: 0.7,
         elevation: 5,
@@ -211,5 +218,5 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.5,
         shadowOffset: { width: 0, height: 2 },
         shadowRadius: 5,
-      },
+    },
 });
