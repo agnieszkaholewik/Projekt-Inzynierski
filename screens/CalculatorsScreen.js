@@ -1,10 +1,21 @@
 import { View, Text, StyleSheet, Pressable, Platform } from "react-native";
+import { useNavigation } from '@react-navigation/native'
+
 
 function CalculatorsScreen() {
+
+    const navigation = useNavigation();
+
+    function pressHandler() {
+        
+            navigation.navigate('BMICalculator')
+        
+    }
+
     return (
         <View style={{marginTop:20}}>
             <View style={styles.gridItem}>
-                <Pressable android_ripple={{ opacity: 0.5 }} style={({ pressed }) => [styles.button, pressed ? styles.buttonPressed : styles.button]}>
+                <Pressable android_ripple={{ opacity: 0.5 }} style={({ pressed }) => [styles.button, pressed ? styles.buttonPressed : styles.button]} onPress={pressHandler}>
                     <View style={styles.BMIContainer}>
                         <Text style={styles.title}>BMI Calculator</Text>
                     </View>
@@ -73,7 +84,7 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         backgroundColor: '#748DA6',
         borderColor:'black',
-        borderWidth:'0.6',
+        borderWidth:0.6,
     },
     CalorieContainer: {
         flex: 1,
@@ -83,7 +94,7 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         backgroundColor: '#0C7B93',
         borderColor:'black',
-        borderWidth:'0.6',
+        borderWidth:0.6,
     },
     BMRContainer: {
         flex: 1,
@@ -93,6 +104,6 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         backgroundColor: '#27496D',
         borderColor:'black',
-        borderWidth:'0.6',
+        borderWidth:0.6,
     }
 });

@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: 30,
         borderColor:'black',
-        borderWidth:'0.6',
+        borderWidth:0.6,
     },
     title: {
         fontSize: 24,
