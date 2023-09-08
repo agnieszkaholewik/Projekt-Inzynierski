@@ -7,6 +7,7 @@ import SubCategoriesScreen from './screens/subCategoriesScreen';
 import 'react-native-gesture-handler'
 import CalculatorsScreen from './screens/CalculatorsScreen';
 import BMICalculator from './screens/calculators/BMICalculator';
+import CalorieCalculator from './screens/calculators/CalorieCalculator';
 
 
 const Stack = createNativeStackNavigator();
@@ -19,7 +20,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <>
-      <StatusBar style='auto' />
+      <StatusBar style='auto' backgroundColor="#b0c4de" />
       <NavigationContainer >
         <Stack.Navigator screenOptions={{headerStyle: { backgroundColor: '#b0c4de'}, headerTintColor: 'black', headerBackTitle:'Back'}}>
           <Stack.Screen name="LaunchScreen" component={LaunchScreen} options={{ headerShown: false}} />
@@ -27,8 +28,10 @@ export default function App() {
           <Stack.Screen name="SubCategoriesScreen" component={SubCategoriesScreen} />
           <Stack.Screen name="CalculatorsScreen" component={CalculatorsScreen} options={{title:'Health Calculators', contentStyle:{backgroundColor:'#e6e6fa'}}} />
           <Stack.Screen name="BMICalculator" component={BMICalculator} options={{title:'BMI Calculator', contentStyle:{backgroundColor:'#e6e6fa'}}} />
+          <Stack.Screen name="CalorieCalculator" component={CalorieCalculator} options={{title:'Calorie Calculator', contentStyle:{backgroundColor:'#e6e6fa'}}} />
         </Stack.Navigator>
       </NavigationContainer>
+      
     </>
     
 

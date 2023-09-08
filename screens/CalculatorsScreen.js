@@ -12,6 +12,10 @@ function CalculatorsScreen() {
         
     }
 
+    function caloriePressHandler() {
+        navigation.navigate('CalorieCalculator')
+    }
+
     return (
         <View style={{marginTop:20}}>
             <View style={styles.gridItem}>
@@ -22,7 +26,7 @@ function CalculatorsScreen() {
                 </Pressable>
             </View>
             <View style={styles.gridItem}>
-                <Pressable android_ripple={{ opacity: 0.5 }} style={({ pressed }) => [styles.button, pressed ? styles.buttonPressed : styles.button]}>
+                <Pressable android_ripple={{ opacity: 0.5 }} style={({ pressed }) => [styles.button, pressed ? styles.buttonPressed : styles.button]} onPress={caloriePressHandler}>
                     <View style={styles.CalorieContainer}>
                         <Text style={styles.title}>Calorie Calculator</Text>
                     </View>

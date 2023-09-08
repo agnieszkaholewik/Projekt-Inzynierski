@@ -22,10 +22,10 @@ function BMICalculator() {
             !/^[0-9,.]+$/.test(weight.trim()) ||
             height.endsWith(",") ||
             weight.endsWith(",") || height.endsWith(".") ||
-            weight.endsWith(".")|| height.includes(" ") || weight.includes(" ") ||
+            weight.endsWith(".") || height.includes(" ") || weight.includes(" ") ||
             height.startsWith(",") ||
             weight.startsWith(",") || height.startsWith(".") ||
-            weight.startsWith(".")) {
+            weight.startsWith(".") || weight <= 0 || height <= 0) {
 
             return (Alert.alert('Error', 'The data is invalid'),
                 setResult(''), setBmi(''))
@@ -61,7 +61,7 @@ function BMICalculator() {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}
             accessible={false}>
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, marginTop: 20 }}>
                 <View>
                     <TextInput style={styles.input} value={weight} onChangeText={(text) => setWeight(text)} placeholder="Weight in kg" keyboardType="numeric" placeholderTextColor={"#708090"} />
                     <TextInput style={styles.input} value={height} onChangeText={(text) => setHeight(text)} placeholder="Height in cm" keyboardType="numeric" placeholderTextColor={"#708090"} />
@@ -86,10 +86,10 @@ export default BMICalculator;
 
 const styles = StyleSheet.create({
     input: {
-        marginTop: 40,
+        marginTop: 20,
         marginHorizontal: 20,
         height: 90,
-        borderRadius: 30,
+        borderRadius: 20,
         elevation: 5,
         shadowColor: 'black',
         shadowOpacity: 0.5,
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
 
     },
     button: {
-        marginTop: 60,
+        marginTop: 50,
         marginHorizontal: 20,
         height: 90,
         width: 250,
@@ -149,7 +149,6 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: '500',
         color: 'black',
-        textAlign: 'left',
         marginTop: 10,
         marginHorizontal: 20,
         textAlign: 'center'
