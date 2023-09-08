@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SubCategoriesScreen from './screens/subCategoriesScreen';
 import 'react-native-gesture-handler'
 import CalculatorsScreen from './screens/CalculatorsScreen';
+import BMICalculator from './screens/calculators/BMICalculator';
 
 
 const Stack = createNativeStackNavigator();
@@ -25,6 +26,7 @@ export default function App() {
           <Stack.Screen name="CategoriesScreen" component={CategoriesScreen} options={{ title: 'Categories' }}  />
           <Stack.Screen name="SubCategoriesScreen" component={SubCategoriesScreen} />
           <Stack.Screen name="CalculatorsScreen" component={CalculatorsScreen} options={{title:'Health Calculators', contentStyle:{backgroundColor:'#e6e6fa'}}} />
+          <Stack.Screen name="BMICalculator" component={BMICalculator} options={{title:'BMI Calculator', contentStyle:{backgroundColor:'#e6e6fa'}}} />
         </Stack.Navigator>
       </NavigationContainer>
     </>
