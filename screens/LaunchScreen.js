@@ -84,7 +84,9 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.5,
         shadowOffset: { width: 2, height: 2 },
         shadowRadius: 15,
-        backgroundColor: '#dda0dd'
+        backgroundColor: '#dda0dd',
+        borderColor:'black',
+        borderWidth:'0.4',
     },
     buttonPressed: {
         paddingVertical: 20,

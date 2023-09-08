@@ -1,11 +1,25 @@
-import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { View, Text, Pressable, StyleSheet, Platform } from 'react-native';
+import { useNavigation } from '@react-navigation/native'
 
-function SubCategoryItem({ title, color, icon }) {
+function SubCategoryItem({ id, title, color, icon }) {
+
+    const navigation = useNavigation();
+
+    function selectSubCategoryHandler() {
+        if (id === 's2') {
+            navigation.navigate('CalculatorsScreen', {
+                screenId: id
+            });
+        }
+    }
+
+
+
     return (
         <View style={styles.gridItem}>
-            <Pressable android_ripple={{ opacity: 0.5 }} style={({ pressed }) => [styles.button, pressed ? styles.buttonPressed : styles.button]}>
-            <View style={[styles.innerContainer, { backgroundColor: color }]}>
-                    <Text style={styles.title}>{title} {icon}</Text> 
+            <Pressable android_ripple={{ opacity: 0.5 }} style={({ pressed }) => [styles.button, pressed ? styles.buttonPressed : styles.button]} onPress={selectSubCategoryHandler}>
+                <View style={[styles.innerContainer, { backgroundColor: color }]}>
+                    <Text style={styles.title}>{title} {icon}</Text>
                 </View>
             </Pressable>
         </View>
@@ -29,7 +43,7 @@ const styles = StyleSheet.create({
         textShadowColor: '#2f4f4f',
         textShadowRadius: 1.7,
         textShadowOffset: { width: 2, height: 2 },
-        textAlign:'center'
+        textAlign: 'center'
 
     },
     gridItem: {
@@ -46,16 +60,18 @@ const styles = StyleSheet.create({
         shadowRadius: 5,
         backgroundColor: 'white',
         overflow: Platform.OS === 'android' ? 'hidden' : 'visible',
-        
+
     },
     innerContainer: {
         flex: 1,
         padding: 16,
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 30
+        borderRadius: 30,
+        borderColor:'black',
+        borderWidth:'0.6',
     },
-    
+
 
 
 });
