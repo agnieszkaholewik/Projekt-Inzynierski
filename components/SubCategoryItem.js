@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
         textShadowColor: '#2f4f4f',
         textShadowRadius: 1.7,
         textShadowOffset: { width: 2, height: 2 },
+        textAlign:'center'
 
     },
     gridItem: {
