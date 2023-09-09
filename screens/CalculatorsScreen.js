@@ -16,26 +16,30 @@ function CalculatorsScreen() {
         navigation.navigate('CalorieCalculator')
     }
 
+    function waterPressHandler() {
+        navigation.navigate('WaterCalculator')
+    }
+
     return (
         <View style={{marginTop:20}}>
             <View style={styles.gridItem}>
                 <Pressable android_ripple={{ opacity: 0.5 }} style={({ pressed }) => [styles.button, pressed ? styles.buttonPressed : styles.button]} onPress={pressHandler}>
                     <View style={styles.BMIContainer}>
-                        <Text style={styles.title}>BMI Calculator</Text>
+                        <Text style={styles.title}>BMI</Text>
                     </View>
                 </Pressable>
             </View>
             <View style={styles.gridItem}>
                 <Pressable android_ripple={{ opacity: 0.5 }} style={({ pressed }) => [styles.button, pressed ? styles.buttonPressed : styles.button]} onPress={caloriePressHandler}>
                     <View style={styles.CalorieContainer}>
-                        <Text style={styles.title}>Calorie Calculator</Text>
+                        <Text style={styles.title}>Caloric Needs</Text>
                     </View>
                 </Pressable>
             </View>
             <View style={styles.gridItem}>
-                <Pressable android_ripple={{ opacity: 0.5 }} style={({ pressed }) => [styles.button, pressed ? styles.buttonPressed : styles.button]}>
+                <Pressable android_ripple={{ opacity: 0.5 }} style={({ pressed }) => [styles.button, pressed ? styles.buttonPressed : styles.button]} onPress={waterPressHandler}>
                     <View style={styles.BMRContainer}>
-                        <Text style={styles.title}>BMR Calculator</Text>
+                        <Text style={styles.title}>Water Intake</Text>
                     </View>
                 </Pressable>
             </View>
