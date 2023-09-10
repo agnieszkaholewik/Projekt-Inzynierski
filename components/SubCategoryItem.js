@@ -16,6 +16,11 @@ function SubCategoryItem({ id, title, color, icon }) {
                 screenId: id
             });
         }
+        if (id === 's4') {
+            navigation.navigate('StopWatchScreen', {
+                screenId: id
+            });
+        }
     }
 
 

@@ -38,7 +38,7 @@ function SubCategoriesScreen({ route, navigation }) {
     }
 
     return (
-        <ScrollView style={styles.container}>
+        <ScrollView style={styles.scrollContainer}>
         <View style={styles.container}>
         <FlatList data={displayedSubcatIcon} keyExtractor={(item)=>item.id} renderItem={renderSubCategoryIcon} scrollEnabled={false} style={{marginTop:50}} /> 
         <FlatList data={displayedSubCat} keyExtractor={(item)=>item.id} renderItem={renderSubCategory} scrollEnabled={false} numColumns={2} style={{marginTop:50}} />
@@ -50,6 +50,11 @@ function SubCategoriesScreen({ route, navigation }) {
 export default SubCategoriesScreen;
 
 const styles = StyleSheet.create({
+    scrollContainer:{
+        flex: 1,
+        backgroundColor:'#e6e6fa',
+
+    },
     container: {
         flex: 1,
         padding:10,
