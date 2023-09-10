@@ -3,7 +3,7 @@ import SubCategoryIcon from "../components/SubCategoryIcon";
 import { SUBCATEGORIES } from "../data/categoriesData";
 import { SUBCATICON } from "../data/categoriesData";
 import { CATEGORIES } from "../data/categoriesData";
-import { View, StyleSheet, FlatList} from 'react-native';
+import { View, StyleSheet, FlatList, ScrollView} from 'react-native';
 import {useLayoutEffect} from 'react';
 
 
@@ -38,10 +38,12 @@ function SubCategoriesScreen({ route, navigation }) {
     }
 
     return (
+        <ScrollView style={styles.container}>
         <View style={styles.container}>
         <FlatList data={displayedSubcatIcon} keyExtractor={(item)=>item.id} renderItem={renderSubCategoryIcon} scrollEnabled={false} style={{marginTop:50}} /> 
-        <FlatList data={displayedSubCat} keyExtractor={(item)=>item.id} renderItem={renderSubCategory} scrollEnabled={false} numColumns={2} style={{marginTop:10}} />
+        <FlatList data={displayedSubCat} keyExtractor={(item)=>item.id} renderItem={renderSubCategory} scrollEnabled={false} numColumns={2} style={{marginTop:50}} />
     </View>
+    </ScrollView>
     )
 };
 

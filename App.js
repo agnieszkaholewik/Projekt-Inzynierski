@@ -9,6 +9,7 @@ import CalculatorsScreen from './screens/CalculatorsScreen';
 import BMICalculator from './screens/calculators/BMICalculator';
 import CalorieCalculator from './screens/calculators/CalorieCalculator';
 import WaterCalculator from './screens/calculators/WaterCalculator';
+import MiniGameScreen from './screens/MiniGameScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,6 +31,7 @@ export default function App() {
           <Stack.Screen name="BMICalculator" component={BMICalculator} options={{title:'BMI', contentStyle:{backgroundColor:'#e6e6fa'}}} />
           <Stack.Screen name="CalorieCalculator" component={CalorieCalculator} options={{title:'Caloric Needs', contentStyle:{backgroundColor:'#e6e6fa'}}} />
           <Stack.Screen name="WaterCalculator" component={WaterCalculator} options={{title:'Water Intake', contentStyle:{backgroundColor:'#e6e6fa'}}} />
+          <Stack.Screen name="MiniGameScreen" component={MiniGameScreen} options={{title:'Mini Game', contentStyle:{backgroundColor:'#e6e6fa'}}} />
         </Stack.Navigator>
       </NavigationContainer>
       

@@ -11,6 +11,11 @@ function SubCategoryItem({ id, title, color, icon }) {
                 screenId: id
             });
         }
+        if (id === 's8') {
+            navigation.navigate('MiniGameScreen', {
+                screenId: id
+            });
+        }
     }
 
 
