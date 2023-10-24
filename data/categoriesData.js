@@ -14,7 +14,7 @@ const notifIcon=<Ionicons name="notifications" size={30} color="white" />
 export const CATEGORIES = [
     new Category('c1', 'Healthy Body', '#6495ed', bodyIcon),
     new Category('c2', 'Healthy Mind', '#dda0dd', brainIcon),
-    new Category('c3', 'Notifications', '#20b2aa', notifIcon),
+    new Category('c3', 'Reminders', '#20b2aa', notifIcon),
 ];
 
 const heartIcon=<FontAwesome5 name="heartbeat" size={150} color="black" />

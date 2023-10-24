@@ -21,6 +21,26 @@ function SubCategoryItem({ id, title, color, icon }) {
                 screenId: id
             });
         }
+        if (id === 's9') {
+            navigation.navigate('DrinkWater', {
+                screenId: id
+            });
+        }
+        if (id === 's10') {
+            navigation.navigate('Exercise', {
+                screenId: id
+            });
+        }
+        if (id === 's11') {
+            navigation.navigate('Sleep', {
+                screenId: id
+            });
+        }
+        if (id === 's12') {
+            navigation.navigate('Add', {
+                screenId: id
+            });
+        }
     }
 
 
