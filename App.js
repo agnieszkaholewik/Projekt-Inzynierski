@@ -11,10 +11,12 @@ import CalorieCalculator from './screens/calculators/CalorieCalculator';
 import WaterCalculator from './screens/calculators/WaterCalculator';
 import MiniGameScreen from './screens/MiniGameScreen';
 import StopWatchScreen from './screens/StopWatchScreen';
+import DrinkWater from './screens/reminders/DrinkWater';
+import Exercise from './screens/reminders/Exercise';
+import Sleep from './screens/reminders/Sleep';
+import Add from './screens/reminders/Add';
 
 const Stack = createNativeStackNavigator();
-
-
 
 
 
@@ -34,6 +36,11 @@ export default function App() {
           <Stack.Screen name="WaterCalculator" component={WaterCalculator} options={{title:'Water Intake', contentStyle:{backgroundColor:'#e6e6fa'}}} />
           <Stack.Screen name="MiniGameScreen" component={MiniGameScreen} options={{title:'Mini Game', contentStyle:{backgroundColor:'#e6e6fa'}}} />
           <Stack.Screen name="StopWatchScreen" component={StopWatchScreen} options={{title:'Stopwatch', contentStyle:{backgroundColor:'#e6e6fa'}}} />
+          <Stack.Screen name="DrinkWater" component={DrinkWater} options={{title:'Drink Water', contentStyle:{backgroundColor:'#e6e6fa'}}} />
+          <Stack.Screen name="Exercise" component={Exercise} options={{title:'Exercise', contentStyle:{backgroundColor:'#e6e6fa'}}} />
+          <Stack.Screen name="Sleep" component={Sleep} options={{title:'Sleep', contentStyle:{backgroundColor:'#e6e6fa'}}} />
+          <Stack.Screen name="Add" component={Add} options={{title:'Add', contentStyle:{backgroundColor:'#e6e6fa'}}} />
+
         </Stack.Navigator>
       </NavigationContainer>
       
