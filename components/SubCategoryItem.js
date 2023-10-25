@@ -41,6 +41,12 @@ function SubCategoryItem({ id, title, color, icon }) {
                 screenId: id
             });
         }
+        if (id === 's5') {
+            navigation.navigate('MoodTrackerScreen', {
+                screenId: id
+            });
+        }
+
     }
 
 
