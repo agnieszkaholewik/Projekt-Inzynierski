@@ -46,6 +46,11 @@ function SubCategoryItem({ id, title, color, icon }) {
                 screenId: id
             });
         }
+        if (id === 's6') {
+            navigation.navigate('BreathingExercisesScreen', {
+                screenId: id
+            });
+        }
 
     }
 
