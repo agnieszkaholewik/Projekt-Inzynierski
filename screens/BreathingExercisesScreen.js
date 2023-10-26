@@ -17,7 +17,7 @@ function BreathingExercisesScreen() {
     }
 
     function twotoonePressHandler() {
-        navigation.navigate('')
+        navigation.navigate('ThirdBreathingExercise')
     }
 
     return (

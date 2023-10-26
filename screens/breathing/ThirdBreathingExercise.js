@@ -4,10 +4,9 @@ import { View, StyleSheet, Dimensions, Animated, Text } from 'react-native';
 const { width, height } = Dimensions.get('window');
 const circleWidth = width / 2;
 
-function SecondBreathingExercise() {
+function ThirdBreathingExercise() {
     const move = useRef(new Animated.Value(0)).current;
     const inhaleOpacity = useRef(new Animated.Value(0)).current;
-    const holdOpacity = useRef(new Animated.Value(0)).current;
     const exhaleOpacity = useRef(new Animated.Value(0)).current;
 
 
@@ -16,12 +15,12 @@ function SecondBreathingExercise() {
             Animated.parallel([
                 Animated.timing(inhaleOpacity, {
                     toValue: 1,
-                    duration: 2000,
+                    duration: 1000,
                     useNativeDriver: true,
                 }),
                 Animated.timing(move, {
                     toValue: 1,
-                    duration: 4000,
+                    duration: 2000,
                     useNativeDriver: true,
                 }),
             ]),
@@ -32,21 +31,9 @@ function SecondBreathingExercise() {
                 useNativeDriver: true,
             }),
 
-            Animated.parallel([
-                Animated.timing(holdOpacity, {
-                    toValue: 1,
-                    duration: 2000,
-                    useNativeDriver: true,
-                }),
-                Animated.delay(4000)
+            
 
-            ]),
-
-            Animated.timing(holdOpacity, {
-                toValue: 0,
-                duration: 0,
-                useNativeDriver: true,
-            }),
+            
             Animated.parallel([
                 Animated.timing(exhaleOpacity, {
                     toValue: 1,
@@ -65,21 +52,7 @@ function SecondBreathingExercise() {
                 duration: 0,
                 useNativeDriver: true,
             }),
-            Animated.parallel([
-                Animated.timing(holdOpacity, {
-                    toValue: 1,
-                    duration: 2000,
-                    useNativeDriver: true,
-                }),
-                Animated.delay(4000)
-
-            ]),
-
-            Animated.timing(holdOpacity, {
-                toValue: 0,
-                duration: 0,
-                useNativeDriver: true,
-            }),
+            
 
         ])
     ).start();
@@ -103,10 +76,10 @@ function SecondBreathingExercise() {
                             key={item}
                             style={{
                                 opacity: 0.3,
-                                backgroundColor: '#BEADFA',
+                                backgroundColor: '#45CFDD',
                                 width: circleWidth,
                                 height: circleWidth,
-                                borderRadius: 10,
+                                borderRadius: circleWidth/3,
                                 ...StyleSheet.absoluteFill,
                                 transform: [
                                     { rotateZ: rotation },
@@ -129,18 +102,7 @@ function SecondBreathingExercise() {
                 >
                     <Text style={styles.text}>Inhale</Text>
                 </Animated.View>
-                <Animated.View
-                    style={{
-                        width: circleWidth,
-                        height: circleWidth,
-                        ...StyleSheet.absoluteFill,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        opacity: holdOpacity,
-                    }}
-                >
-                    <Text style={styles.text}>Hold</Text>
-                </Animated.View>
+                
                 <Animated.View
                     style={{
                         width: circleWidth,
@@ -159,12 +121,12 @@ function SecondBreathingExercise() {
                 fontWeight: '500',
                 color: 'black',
                 textAlign: 'center'
-            }} >Repeat until you feel re-centered.</Text></View>
+            }} >Repeat until you feel relaxed.</Text></View>
         </View>
     );
 }
 
-export default SecondBreathingExercise;
+export default ThirdBreathingExercise;
 
 const styles = StyleSheet.create({
     container: {

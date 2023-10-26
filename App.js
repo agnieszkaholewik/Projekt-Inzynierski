@@ -19,6 +19,7 @@ import MoodTrackerScreen from './screens/MoodTrackerScreen';
 import BreathingExercisesScreen from './screens/BreathingExercisesScreen';
 import FirstBreathingExercise from './screens/breathing/FirstBreathingExercise';
 import SecondBreathingExercise from './screens/breathing/SecondBreathingExercise';
+import ThirdBreathingExercise from './screens/breathing/ThirdBreathingExercise';
 
 const Stack = createNativeStackNavigator();
 
@@ -48,6 +49,7 @@ export default function App() {
           <Stack.Screen name="BreathingExercisesScreen" component={BreathingExercisesScreen} options={{title:'Breathing Exercises', contentStyle:{backgroundColor:'#e6e6fa'}}} />
           <Stack.Screen name="FirstBreathingExercise" component={FirstBreathingExercise} options={{title:'4-7-8 Breathing', contentStyle:{backgroundColor:'#e6e6fa'}}} />
           <Stack.Screen name="SecondBreathingExercise" component={SecondBreathingExercise} options={{title:'Box Breathing', contentStyle:{backgroundColor:'#e6e6fa'}}} />
+          <Stack.Screen name="ThirdBreathingExercise" component={ThirdBreathingExercise} options={{title:'2-TO-1 Breathing', contentStyle:{backgroundColor:'#e6e6fa'}}} />
 
         </Stack.Navigator>
       </NavigationContainer>
