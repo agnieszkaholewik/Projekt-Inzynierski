@@ -16,7 +16,7 @@ function FirstBreathingExercise() {
             Animated.parallel([
                 Animated.timing(inhaleOpacity, {
                     toValue: 1,
-                    duration: 4000,
+                    duration: 2000,
                     useNativeDriver: true,
                 }),
                 Animated.timing(move, {

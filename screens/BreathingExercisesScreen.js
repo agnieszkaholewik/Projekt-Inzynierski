@@ -13,7 +13,7 @@ function BreathingExercisesScreen() {
     }
 
     function boxPressHandler() {
-        navigation.navigate('')
+        navigation.navigate('SecondBreathingExercise')
     }
 
     function twotoonePressHandler() {
