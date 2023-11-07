@@ -20,6 +20,9 @@ import BreathingExercisesScreen from './screens/BreathingExercisesScreen';
 import FirstBreathingExercise from './screens/breathing/FirstBreathingExercise';
 import SecondBreathingExercise from './screens/breathing/SecondBreathingExercise';
 import ThirdBreathingExercise from './screens/breathing/ThirdBreathingExercise';
+import WorkoutsScreen from './screens/WorkoutsScreen';
+import Warmup from './screens/workouts/Warmup';
+import AddWorkout from './screens/workouts/AddWorkout';
 
 const Stack = createNativeStackNavigator();
 
@@ -50,6 +53,9 @@ export default function App() {
           <Stack.Screen name="FirstBreathingExercise" component={FirstBreathingExercise} options={{title:'4-7-8 Breathing', contentStyle:{backgroundColor:'#e6e6fa'}}} />
           <Stack.Screen name="SecondBreathingExercise" component={SecondBreathingExercise} options={{title:'Box Breathing', contentStyle:{backgroundColor:'#e6e6fa'}}} />
           <Stack.Screen name="ThirdBreathingExercise" component={ThirdBreathingExercise} options={{title:'2-TO-1 Breathing', contentStyle:{backgroundColor:'#e6e6fa'}}} />
+          <Stack.Screen name="WorkoutsScreen" component={WorkoutsScreen} options={{title:'Workouts', contentStyle:{backgroundColor:'#e6e6fa'}}} />
+          <Stack.Screen name="Warmup" component={Warmup} options={{title:'Warm-up', contentStyle:{backgroundColor:'#e6e6fa'}}} />
+          <Stack.Screen name="AddWorkout" component={AddWorkout} options={{title:'Add', contentStyle:{backgroundColor:'#e6e6fa'}}} />
 
         </Stack.Navigator>
       </NavigationContainer>

@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
         marginTop: 160,
     },
     titleText: {
-        fontSize: 30,
+        fontSize: 45,
         color: 'white',
         fontWeight: 'bold',
         textShadowColor: 'grey',
@@ -62,15 +62,20 @@ const styles = StyleSheet.create({
         marginTop: 10
     },
     mottoText: {
-        fontSize: 20,
+        fontSize: 25,
+        marginTop:15,
+        marginHorizontal:70,
+        textAlign:'center',
         color: 'white',
         textShadowColor: 'grey',
         textShadowRadius: 1,
         textShadowOffset: { width: 2, height: 2 },
+        fontStyle:'italic'
+        
 
     },
     iconContainer: {
-        marginTop: 150
+        marginTop: 100
     },
     buttonContainer: {
         marginTop: 90

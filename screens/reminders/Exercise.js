@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, Button, Platform, TouchableWithoutFeedback, Keyboard, Switch, Pressable } from 'react-native';
+import { View, Text, FlatList, Button, Platform, TouchableWithoutFeedback, Keyboard, Switch, Pressable} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as Notifications from 'expo-notifications';
 import { StyleSheet } from "react-native";
-import { Ionicons } from '@expo/vector-icons'; 
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Ionicons } from '@expo/vector-icons';
+import axios from 'axios';
 
 export default function Exercise() {
     const [notifications, setNotifications] = useState([]);
@@ -12,30 +12,30 @@ export default function Exercise() {
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [repeatDaily, setRepeatDaily] = useState(false);
 
+    const databaseURL = "https://projekt-inzynierski-826a0-default-rtdb.europe-west1.firebasedatabase.app";
+
     useEffect(() => {
         const loadNotifications = async () => {
             try {
-                const savedNotifications = await AsyncStorage.getItem('notifications');
-                if (savedNotifications) {
-                    setNotifications(JSON.parse(savedNotifications));
+                const response = await axios.get(`${databaseURL}/exerciseNotifications.json`);
+                if (response.data) {
+                    setNotifications(Object.values(response.data));
                 }
             } catch (error) {
-                console.error("Error loading notifications:", error);
+                console.error("Error loading exerciseNotifications:", error);
             }
         };
         loadNotifications();
     }, []);
 
-    useEffect(() => {
-        const saveNotifications = async () => {
-            try {
-                await AsyncStorage.setItem('notifications', JSON.stringify(notifications));
-            } catch (error) {
-                console.error("Error saving notifications:", error);
-            }
-        };
-        saveNotifications();
-    }, [notifications]);
+    const saveNotifications = async (updatedNotifications) => {
+        try {
+            await axios.put(`${databaseURL}/exerciseNotifications.json`, updatedNotifications);
+            console.log("Notifications saved to Firebase Realtime Database");
+        } catch (error) {
+            console.error("Error saving exerciseNotifications:", error);
+        }
+    };
 
     const dismissKeyboard = () => {
         Keyboard.dismiss();
@@ -91,15 +91,17 @@ export default function Exercise() {
             repeatDaily,
         };
 
-        setNotifications([...notifications, newNotification]);
+        const updatedNotifications = [...notifications, newNotification];
+        setNotifications(updatedNotifications);
+        saveNotifications(updatedNotifications); // Save the updated notifications to the database
         setDate(new Date());
         setShowDatePicker(false);
     };
 
     const removeNotification = async (id) => {
-        setNotifications((prevNotifications) =>
-            prevNotifications.filter((notification) => notification.id !== id)
-        );
+        const updatedNotifications = notifications.filter((notification) => notification.id !== id);
+        setNotifications(updatedNotifications);
+        saveNotifications(updatedNotifications); // Save the updated notifications to the database
         await Notifications.cancelScheduledNotificationAsync(id);
     };
 
@@ -122,7 +124,11 @@ export default function Exercise() {
             <Text>{item.description}</Text>
             <Text>{item.date}</Text>
             <Text>{item.repeatDaily ? 'Repeats daily' : 'Does not repeat'}</Text>
-            <Button title="Delete" onPress={() => removeNotification(item.id)} color="red" />
+            <Button
+                title="Delete"
+                onPress={() => removeNotification(item.id)}
+                color="red"
+            />
         </View>
     );
 
@@ -148,7 +154,9 @@ export default function Exercise() {
                 <View style={styles.selectButton}>
                     <Text style={styles.selectText}>Repeat Daily?</Text>
                 </View>
-                <Switch value={repeatDaily} onValueChange={toggleRepeatDaily} />
+                <View style={{}}>
+                    <Switch value={repeatDaily} onValueChange={toggleRepeatDaily} />
+                </View>
                 <Pressable android_ripple={{ opacity: 0.5 }} style={({ pressed }) => [styles.button, pressed ? styles.buttonPressed : styles.button]} onPress={addNotification}>
                     <Text style={styles.text}>Set reminder <Ionicons name="notifications" size={30} color="white" /></Text>
                 </Pressable>

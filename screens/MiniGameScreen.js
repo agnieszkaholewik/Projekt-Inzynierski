@@ -19,7 +19,7 @@ function MiniGameScreen() {
             head: {
                 position: [0, 0],
                 size: 20,
-                updateFrequency: 12,
+                updateFrequency: 10,
                 nextMove: 10,
                 xspeed: 0,
                 yspeed: 0,

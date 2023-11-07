@@ -3,8 +3,8 @@ import { View, Text, FlatList, Button, Platform, TouchableWithoutFeedback, Keybo
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as Notifications from 'expo-notifications';
 import { StyleSheet } from "react-native";
-import { Ionicons } from '@expo/vector-icons'; 
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Ionicons } from '@expo/vector-icons';
+import axios from 'axios';
 
 export default function DrinkWater() {
     const [notifications, setNotifications] = useState([]);
@@ -12,30 +12,29 @@ export default function DrinkWater() {
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [repeatDaily, setRepeatDaily] = useState(false);
 
-    useEffect(() => {
-        const loadNotifications = async () => {
-            try {
-                const savedNotifications = await AsyncStorage.getItem('drinkWaterNotifications');
-                if (savedNotifications) {
-                    setNotifications(JSON.parse(savedNotifications));
-                }
-            } catch (error) {
-                console.error("Error loading drinkWaterNotifications:", error);
-            }
-        };
-        loadNotifications();
-    }, []);
+    const databaseURL = "https://projekt-inzynierski-826a0-default-rtdb.europe-west1.firebasedatabase.app";
 
     useEffect(() => {
-        const saveNotifications = async () => {
-            try {
-                await AsyncStorage.setItem('drinkWaterNotifications', JSON.stringify(notifications));
-            } catch (error) {
-                console.error("Error saving drinkWaterNotifications:", error);
-            }
-        };
-        saveNotifications();
-    }, [notifications]);
+        axios.get(`${databaseURL}/waterNotifications.json`)
+            .then((response) => {
+                if (response.data) {
+                    const notificationData = Object.values(response.data);
+                    setNotifications(notificationData);
+                }
+            })
+            .catch((error) => {
+                console.error("Error loading drinkWaterNotifications:", error);
+            });
+    }, []);
+
+    const saveNotifications = async (updatedNotifications) => {
+        try {
+            await axios.put(`${databaseURL}/waterNotifications.json`, updatedNotifications);
+            console.log("Notifications saved to Firebase Realtime Database");
+        } catch (error) {
+            console.error("Error saving drinkWaterNotifications:", error);
+        }
+    };
 
     const dismissKeyboard = () => {
         Keyboard.dismiss();
@@ -91,15 +90,19 @@ export default function DrinkWater() {
             repeatDaily,
         };
 
-        setNotifications([...notifications, newNotification]);
+        // Add the new notification to the state
+        const updatedNotifications = [...notifications, newNotification];
+        setNotifications(updatedNotifications);
         setDate(new Date());
         setShowDatePicker(false);
+        saveNotifications(updatedNotifications); // Save the updated notifications to the database
     };
 
     const removeNotification = async (id) => {
         setNotifications((prevNotifications) =>
             prevNotifications.filter((notification) => notification.id !== id)
         );
+        saveNotifications([...notifications.filter((notification) => notification.id !== id)]); // Save the updated notifications to the database
         await Notifications.cancelScheduledNotificationAsync(id);
     };
 
@@ -223,10 +226,5 @@ const styles = StyleSheet.create({
         flex: 1,
         width: '100%',
         marginTop: 50,
-    },
-    container: {
-        flex: 1,
-        padding: 30,
-        alignItems: 'center',
     },
 });

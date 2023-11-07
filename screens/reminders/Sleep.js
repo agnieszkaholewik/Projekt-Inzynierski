@@ -3,8 +3,8 @@ import { View, Text, FlatList, Button, Platform, TouchableWithoutFeedback, Keybo
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as Notifications from 'expo-notifications';
 import { StyleSheet } from "react-native";
-import { Ionicons } from '@expo/vector-icons'; 
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Ionicons } from '@expo/vector-icons';
+import axios from 'axios';
 
 export default function Sleep() {
     const [notifications, setNotifications] = useState([]);
@@ -12,12 +12,14 @@ export default function Sleep() {
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [repeatDaily, setRepeatDaily] = useState(false);
 
+    const databaseURL = "https://projekt-inzynierski-826a0-default-rtdb.europe-west1.firebasedatabase.app";
+
     useEffect(() => {
         const loadNotifications = async () => {
             try {
-                const savedNotifications = await AsyncStorage.getItem('sleepNotifications');
-                if (savedNotifications) {
-                    setNotifications(JSON.parse(savedNotifications));
+                const response = await axios.get(`${databaseURL}/sleepNotifications.json`);
+                if (response.data) {
+                    setNotifications(Object.values(response.data));
                 }
             } catch (error) {
                 console.error("Error loading sleepNotifications:", error);
@@ -26,16 +28,14 @@ export default function Sleep() {
         loadNotifications();
     }, []);
 
-    useEffect(() => {
-        const saveNotifications = async () => {
-            try {
-                await AsyncStorage.setItem('sleepNotifications', JSON.stringify(notifications));
-            } catch (error) {
-                console.error("Error saving sleepNotifications:", error);
-            }
-        };
-        saveNotifications();
-    }, [notifications]);
+    const saveNotifications = async (updatedNotifications) => {
+        try {
+            await axios.put(`${databaseURL}/sleepNotifications.json`, updatedNotifications);
+            console.log("Notifications saved to Firebase Realtime Database");
+        } catch (error) {
+            console.error("Error saving sleepNotifications:", error);
+        }
+    };
 
     const dismissKeyboard = () => {
         Keyboard.dismiss();
@@ -91,15 +91,17 @@ export default function Sleep() {
             repeatDaily,
         };
 
-        setNotifications([...notifications, newNotification]);
+        const updatedNotifications = [...notifications, newNotification];
+        setNotifications(updatedNotifications);
+        saveNotifications(updatedNotifications); // Save the updated notifications to the database
         setDate(new Date());
         setShowDatePicker(false);
     };
 
     const removeNotification = async (id) => {
-        setNotifications((prevNotifications) =>
-            prevNotifications.filter((notification) => notification.id !== id)
-        );
+        const updatedNotifications = notifications.filter((notification) => notification.id !== id);
+        setNotifications(updatedNotifications);
+        saveNotifications(updatedNotifications); // Save the updated notifications to the database
         await Notifications.cancelScheduledNotificationAsync(id);
     };
 
@@ -122,7 +124,11 @@ export default function Sleep() {
             <Text>{item.description}</Text>
             <Text>{item.date}</Text>
             <Text>{item.repeatDaily ? 'Repeats daily' : 'Does not repeat'}</Text>
-            <Button title="Delete" onPress={() => removeNotification(item.id)} color="red" />
+            <Button
+                title="Delete"
+                onPress={() => removeNotification(item.id)}
+                color="red"
+            />
         </View>
     );
 

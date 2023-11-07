@@ -51,6 +51,11 @@ function SubCategoryItem({ id, title, color, icon }) {
                 screenId: id
             });
         }
+        if (id === 's1') {
+            navigation.navigate('WorkoutsScreen', {
+                screenId: id
+            });
+        }
 
     }
 

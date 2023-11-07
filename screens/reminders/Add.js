@@ -5,7 +5,7 @@ import * as Notifications from 'expo-notifications';
 import { StyleSheet } from "react-native";
 import { TextInput } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 export default function Add() {
     const [notifications, setNotifications] = useState([]);
@@ -15,12 +15,14 @@ export default function Add() {
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [repeatDaily, setRepeatDaily] = useState(false);
 
+    const databaseURL = "https://projekt-inzynierski-826a0-default-rtdb.europe-west1.firebasedatabase.app";
+
     useEffect(() => {
         const loadNotifications = async () => {
             try {
-                const savedNotifications = await AsyncStorage.getItem('addNotifications');
-                if (savedNotifications) {
-                    setNotifications(JSON.parse(savedNotifications));
+                const response = await axios.get(`${databaseURL}/addNotifications.json`);
+                if (response.data) {
+                    setNotifications(Object.values(response.data));
                 }
             } catch (error) {
                 console.error("Error loading addNotifications:", error);
@@ -29,16 +31,14 @@ export default function Add() {
         loadNotifications();
     }, []);
 
-    useEffect(() => {
-        const saveNotifications = async () => {
-            try {
-                await AsyncStorage.setItem('addNotifications', JSON.stringify(notifications));
-            } catch (error) {
-                console.error("Error saving addNotifications:", error);
-            }
-        };
-        saveNotifications();
-    }, [notifications]);
+    const saveNotifications = async (updatedNotifications) => {
+        try {
+            await axios.put(`${databaseURL}/addNotifications.json`, updatedNotifications);
+            console.log("Notifications saved to Firebase Realtime Database");
+        } catch (error) {
+            console.error("Error saving addNotifications:", error);
+        }
+    };
 
     const dismissKeyboard = () => {
         Keyboard.dismiss();
@@ -87,17 +87,19 @@ export default function Add() {
             description,
             date: formattedDate,
         };
-        setNotifications([...notifications, newNotification]);
+        const updatedNotifications = [...notifications, newNotification];
+        setNotifications(updatedNotifications);
         setTitle('');
         setDescription('');
         setDate(new Date());
         setShowDatePicker(false);
+        saveNotifications(updatedNotifications); // Save the updated notifications to the database
     };
 
     const removeNotification = async (id) => {
-        setNotifications((prevNotifications) =>
-            prevNotifications.filter((notification) => notification.id !== id)
-        );
+        const updatedNotifications = notifications.filter((notification) => notification.id !== id);
+        setNotifications(updatedNotifications);
+        saveNotifications(updatedNotifications); // Save the updated notifications to the database
         await Notifications.cancelScheduledNotificationAsync(id);
     };
 
@@ -127,7 +129,6 @@ export default function Add() {
     return (
         <TouchableWithoutFeedback onPress={dismissKeyboard}>
             <View style={{ flex: 1, padding: 30 }}>
-
                 <TextInput
                     mode="outlined"
                     outlineColor='#008080'
@@ -144,7 +145,6 @@ export default function Add() {
                     value={description}
                     onChangeText={(text) => setDescription(text)}
                 />
-
                 <View style={{ flex: 1, padding: 30, alignItems: 'center' }}>
                     <Pressable
                         android_ripple={{ opacity: 0.5 }}
@@ -165,10 +165,10 @@ export default function Add() {
                     <View style={styles.selectButton}>
                         <Text style={styles.selectText}>Repeat Daily?</Text>
                     </View>
-                <Switch value={repeatDaily} onValueChange={toggleRepeatDaily} />
-                <Pressable android_ripple={{ opacity: 0.5 }} style={({ pressed }) => [styles.button, pressed ? styles.buttonPressed : styles.button]} onPress={addNotification}>
-                    <Text style={styles.text}>Set reminder <Ionicons name="notifications" size={30} color="white" /></Text>
-                </Pressable>
+                    <Switch value={repeatDaily} onValueChange={toggleRepeatDaily} />
+                    <Pressable android_ripple={{ opacity: 0.5 }} style={({ pressed }) => [styles.button, pressed ? styles.buttonPressed : styles.button]} onPress={addNotification}>
+                        <Text style={styles.text}>Set reminder <Ionicons name="notifications" size={30} color="white" /></Text>
+                    </Pressable>
                 </View>
                 <FlatList
                     data={notifications}
@@ -180,6 +180,7 @@ export default function Add() {
         </TouchableWithoutFeedback>
     );
 }
+
 const styles = StyleSheet.create({
     button: {
         marginTop: 50,
@@ -214,7 +215,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderColor: 'black',
         borderWidth: 0.7,
-
     },
     text: {
         fontSize: 25,
