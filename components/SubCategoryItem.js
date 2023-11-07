@@ -56,6 +56,11 @@ function SubCategoryItem({ id, title, color, icon }) {
                 screenId: id
             });
         }
+        if (id === 's7') {
+            navigation.navigate('AffirmationsScreen', {
+                screenId: id
+            });
+        }
 
     }
 

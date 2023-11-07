@@ -23,6 +23,7 @@ import ThirdBreathingExercise from './screens/breathing/ThirdBreathingExercise';
 import WorkoutsScreen from './screens/WorkoutsScreen';
 import Warmup from './screens/workouts/Warmup';
 import AddWorkout from './screens/workouts/AddWorkout';
+import AffirmationsScreen from './screens/AffirmationsScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -56,6 +57,7 @@ export default function App() {
           <Stack.Screen name="WorkoutsScreen" component={WorkoutsScreen} options={{title:'Workouts', contentStyle:{backgroundColor:'#e6e6fa'}}} />
           <Stack.Screen name="Warmup" component={Warmup} options={{title:'Warm-up', contentStyle:{backgroundColor:'#e6e6fa'}}} />
           <Stack.Screen name="AddWorkout" component={AddWorkout} options={{title:'Add', contentStyle:{backgroundColor:'#e6e6fa'}}} />
+          <Stack.Screen name="AffirmationsScreen" component={AffirmationsScreen} options={{title:'Affirmations', contentStyle:{backgroundColor:'#e6e6fa'}}} />
 
         </Stack.Navigator>
       </NavigationContainer>

@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button, Pressable } from 'react-native';
 import { Calendar } from 'react-native-calendars';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+
+const firebaseURL = 'https://projekt-inzynierski-826a0-default-rtdb.europe-west1.firebasedatabase.app';
+const moodDataURL = `${firebaseURL}/mood.json`;
 
 function MoodTrackerScreen() {
-    const [selected, setSelected] = useState(new Date().toISOString().split('T')[0]); // Initialize with today's date
+    const [selected, setSelected] = useState(new Date().toISOString().split('T')[0]);
     const [selectedMoodColor, setSelectedMoodColor] = useState('#FFFFFF');
     const [markedDates, setMarkedDates] = useState({});
 
     useEffect(() => {
         const loadSavedMoodColors = async () => {
             try {
-                const savedMoodColors = await AsyncStorage.getItem('moodColors');
-                if (savedMoodColors !== null) {
-                    setMarkedDates(JSON.parse(savedMoodColors));
+                const response = await axios.get(moodDataURL);
+                if (response.data) {
+                    setMarkedDates(response.data);
                 }
             } catch (error) {
                 console.error('Error loading saved mood colors:', error);
@@ -35,7 +38,9 @@ function MoodTrackerScreen() {
         };
         setMarkedDates(updatedMarkedDates);
 
-        AsyncStorage.setItem('moodColors', JSON.stringify(updatedMarkedDates))
+        axios
+            .put(moodDataURL, updatedMarkedDates)
+            .then(() => console.log('Mood colors saved to Firebase'))
             .catch((error) => console.error('Error saving mood colors:', error));
     };
 
@@ -45,7 +50,9 @@ function MoodTrackerScreen() {
             delete updatedMarkedDates[selected];
             setMarkedDates(updatedMarkedDates);
 
-            AsyncStorage.setItem('moodColors', JSON.stringify(updatedMarkedDates))
+            axios
+                .put(moodDataURL, updatedMarkedDates)
+                .then(() => console.log('Mood colors saved to Firebase'))
                 .catch((error) => console.error('Error saving mood colors:', error));
         }
     };
