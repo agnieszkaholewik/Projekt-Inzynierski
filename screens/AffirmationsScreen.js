@@ -42,6 +42,7 @@ function AffirmationsScreen() {
       AsyncStorage.setItem("randomAffirmation", newAffirmation);
       setIsAffirmationGenerated(true);
     }
+    
   };
 
   return (
@@ -87,6 +88,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderWidth: 1,
     borderColor: "black",
+    marginBottom:20
   },
   buttonPressed: {
     opacity: 0.5,
@@ -126,5 +128,6 @@ const styles = StyleSheet.create({
   exerciseImage: {
     width: 150,
     height: 150,
+    
   },
 });
