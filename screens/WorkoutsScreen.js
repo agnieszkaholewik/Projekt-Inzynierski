@@ -5,7 +5,6 @@ import { AntDesign } from '@expo/vector-icons';
 import axios from 'axios';
 import WorkoutExercises from "../components/WorkoutExercises";
 
-
 function WorkoutsScreen() {
     const navigation = useNavigation();
     const [isAddModalVisible, setAddModalVisible] = useState(false);
@@ -41,7 +40,6 @@ function WorkoutsScreen() {
             Alert.alert('Failed to save the workout.');
         }
     }
-    
 
     async function deleteWorkoutFromDatabase(workoutId) {
         try {
@@ -55,13 +53,13 @@ function WorkoutsScreen() {
     async function updateExerciseStatusInDatabase(workoutId, exerciseIndex, completed) {
         try {
             const response = await axios.get(`https://projekt-inzynierski-826a0-default-rtdb.europe-west1.firebasedatabase.app/workouts/${workoutId}.json`);
-    
+
             if (response.data) {
                 console.log('Current Workout Data:', response.data);
-    
+
                 const currentExercises = response.data.exercises || [];
                 currentExercises[exerciseIndex] = { ...currentExercises[exerciseIndex], checked: completed };
-    
+
                 await axios.patch(
                     `https://projekt-inzynierski-826a0-default-rtdb.europe-west1.firebasedatabase.app/workouts/${workoutId}.json`,
                     { exercises: currentExercises },
@@ -71,7 +69,7 @@ function WorkoutsScreen() {
                         },
                     }
                 );
-    
+
                 console.log('Workout Updated Successfully');
             } else {
                 console.error('Error updating exercise status: Workout not found');
@@ -81,10 +79,41 @@ function WorkoutsScreen() {
             Alert.alert('Failed to update exercise status.');
         }
     }
-    
-    
-    
-    
+
+    async function updateAllExerciseStatusInDatabase(workoutId, exerciseStatus) {
+        try {
+            // Fetch the current workout data from the database
+            const response = await axios.get(`https://projekt-inzynierski-826a0-default-rtdb.europe-west1.firebasedatabase.app/workouts/${workoutId}.json`);
+
+            if (response.data) {
+                console.log('Current Workout Data:', response.data);
+
+                // Update all exercise statuses
+                const updatedExercises = exerciseStatus.map((exercise, index) => ({
+                    ...response.data.exercises[index],
+                    checked: exercise.completed,
+                }));
+
+                // Update the entire exercises array in the database
+                await axios.patch(
+                    `https://projekt-inzynierski-826a0-default-rtdb.europe-west1.firebasedatabase.app/workouts/${workoutId}.json`,
+                    { exercises: updatedExercises },
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                );
+
+                console.log('All Exercises Updated Successfully');
+            } else {
+                console.error('Error updating all exercise statuses: Workout not found');
+            }
+        } catch (error) {
+            console.error('Error updating all exercise statuses:', error);
+            Alert.alert('Failed to update all exercise statuses.');
+        }
+    }
 
 
     function pressHandler() {
@@ -104,7 +133,14 @@ function WorkoutsScreen() {
 
     function saveWorkoutName() {
         if (workoutName.trim() === '') {
-            Alert.alert('Please name the workout.');
+            Alert.alert('Please name the workout');
+            return;
+        }
+
+        // Check if at least three exercises are provided
+        const isEnoughExercises = exerciseInputs.filter(exercise => exercise.trim() !== '').length >= 3;
+        if (!isEnoughExercises) {
+            Alert.alert('Please add at least three exercises.');
             return;
         }
 
@@ -116,11 +152,7 @@ function WorkoutsScreen() {
             })),
         };
 
-
         saveWorkoutToDatabase(workoutData);
-
-
-        setSavedWorkouts([...savedWorkouts, { id: new Date().getTime(), ...workoutData }]);
 
         setWorkoutName('');
         setExerciseInputs(['', '', '']);
@@ -138,13 +170,13 @@ function WorkoutsScreen() {
     }
 
     function deleteWorkout(index, workoutId) {
-
         deleteWorkoutFromDatabase(workoutId);
 
         const updatedWorkouts = [...savedWorkouts];
         updatedWorkouts.splice(index, 1);
         setSavedWorkouts(updatedWorkouts);
     }
+
 
     return (
         <View style={{ marginTop: 20 }}>
@@ -256,8 +288,9 @@ function WorkoutsScreen() {
                 selectedWorkout={selectedWorkout}
                 onClose={() => setExerciseModalVisible(false)}
                 updateExerciseStatusInDatabase={updateExerciseStatusInDatabase}
+                updateAllExerciseStatusInDatabase={updateAllExerciseStatusInDatabase} // Add this prop
             />
-                    </View>
+        </View>
     );
 }
 

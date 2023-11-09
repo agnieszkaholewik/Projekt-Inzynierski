@@ -2,8 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Text, View, ScrollView, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 
-const WorkoutExercises = ({ isVisible, selectedWorkout, onClose, updateExerciseStatusInDatabase }) => {
+const WorkoutExercises = ({ isVisible, selectedWorkout, onClose, updateExerciseStatusInDatabase, updateAllExerciseStatusInDatabase }) => {
     const [exerciseStatus, setExerciseStatus] = useState([]);
+    const clearCheckboxes = () => {
+        const clearedStatus = exerciseStatus.map(exercise => ({ ...exercise, completed: false }));
+        setExerciseStatus(clearedStatus);
+        
+        // Update the checkboxes in the database (assuming a function named updateAllExerciseStatusInDatabase)
+        updateAllExerciseStatusInDatabase(selectedWorkout.id, clearedStatus);
+    };
+    
 
     useEffect(() => {
         if (selectedWorkout) {
@@ -13,6 +21,9 @@ const WorkoutExercises = ({ isVisible, selectedWorkout, onClose, updateExerciseS
             })));
         }
     }, [selectedWorkout]);
+
+    const completedCount = exerciseStatus.filter(exercise => exercise.completed).length;
+    const totalCount = exerciseStatus.length;
 
     return (
         <Modal animationType="slide" transparent={true} visible={isVisible}>
@@ -29,6 +40,11 @@ const WorkoutExercises = ({ isVisible, selectedWorkout, onClose, updateExerciseS
                                 </Pressable>
                             </View>
                             <Text style={styles.workoutTitle}>{selectedWorkout.name}</Text>
+
+                            <Text style={styles.completedCountText}>
+                                Completed {completedCount} out of {totalCount} exercises.
+                            </Text>
+
                             <ScrollView>
                                 {exerciseStatus.map((exercise, index) => {
                                     if (!exercise.name || exercise.name.trim() === '') {
@@ -59,15 +75,21 @@ const WorkoutExercises = ({ isVisible, selectedWorkout, onClose, updateExerciseS
                                             >
                                                 {exercise.name}
                                             </Text>
-                                            
                                         </TouchableOpacity>
-                                        
                                     );
                                 })}
                             </ScrollView>
+                            <View style={styles.gridItem}>
+                            <Pressable android_ripple={{ opacity: 0.5 }} style={({ pressed }) => [styles.button, pressed ? styles.buttonPressed : styles.button]} onPress={clearCheckboxes}>
+                            <View style={styles.BMRContainer}>
+                            <Text style={styles.title}>Clear checkboxes</Text>
+                            </View>
+                            </Pressable>
+                            </View>
                         </React.Fragment>
                     )}
                 </View>
+                
             </View>
         </Modal>
     );
@@ -93,7 +115,7 @@ const styles = StyleSheet.create({
         fontSize: 30,
         fontWeight: '500',
         textAlign: 'center',
-        marginBottom: 60,
+        marginBottom: 30,
         paddingHorizontal: 20,
     },
     exerciseItem: {
@@ -102,12 +124,12 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     exerciseText: {
-        fontSize: 25,
+        fontSize: 18,
         marginRight: 50,
     },
     checkbox: {
-        width: 30,
-        height: 30,
+        width: 25,
+        height: 25,
         borderStyle: 'solid',
         borderWidth: 1,
         borderColor: 'black',
@@ -129,6 +151,54 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         textDecorationLine: 'underline',
     },
+    completedCountText: {
+        fontSize: 18,
+        marginBottom: 20,
+        textAlign: 'center',
+        marginBottom:60
+    },
+    button: {
+        flex: 1
+    },
+    buttonPressed: {
+        opacity: 0.5
+    },
+    gridItem: {
+        marginTop: 8,
+        margin: 20,
+        height: 70,
+        borderRadius: 30,
+        elevation: 5,
+        shadowColor: 'black',
+        shadowOpacity: 0.5,
+        shadowOffset: { width: 0, height: 2 },
+        shadowRadius: 5,
+        backgroundColor: 'white',
+        overflow: Platform.OS === 'android' ? 'hidden' : 'visible',
+        
+        
+
+    },
+    title: {
+        fontSize: 20,
+        fontWeight: '500',
+        color: 'white',
+        textShadowColor: '#2C3333',
+        textShadowRadius: 1.7,
+        textShadowOffset: { width: 2, height: 2 },
+        textAlign: 'center'
+
+    },
+    BMRContainer: {
+        flex: 1,
+        padding: 16,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 30,
+        backgroundColor: '#27496D',
+        borderColor:'black',
+        borderWidth:0.6,
+    }
 });
 
 export default WorkoutExercises;
