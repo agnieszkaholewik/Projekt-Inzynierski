@@ -13,9 +13,8 @@ function WorkoutsScreen() {
     const [workoutName, setWorkoutName] = useState('');
     const [exerciseInputs, setExerciseInputs] = useState(['']);
     const [savedWorkouts, setSavedWorkouts] = useState([]);
-    const [selectedWorkout, setSelectedWorkout] = useState(null); // Track selected workout
+    const [selectedWorkout, setSelectedWorkout] = useState(null);
 
-    // Load workouts from the database on component mount
     useEffect(() => {
         async function loadWorkouts() {
             try {
@@ -30,16 +29,19 @@ function WorkoutsScreen() {
         }
 
         loadWorkouts();
-    }, []); // Empty dependency array to run only once on component mount
+    }, []);
 
     async function saveWorkoutToDatabase(workoutData) {
         try {
             const response = await axios.post('https://projekt-inzynierski-826a0-default-rtdb.europe-west1.firebasedatabase.app/workouts.json', workoutData);
+            const newWorkout = { id: response.data.name, ...workoutData };
+            setSavedWorkouts([...savedWorkouts, newWorkout]);
         } catch (error) {
             console.error('Error saving workout:', error);
             Alert.alert('Failed to save the workout.');
         }
     }
+    
 
     async function deleteWorkoutFromDatabase(workoutId) {
         try {
@@ -49,6 +51,41 @@ function WorkoutsScreen() {
             Alert.alert('Failed to delete the workout.');
         }
     }
+
+    async function updateExerciseStatusInDatabase(workoutId, exerciseIndex, completed) {
+        try {
+            const response = await axios.get(`https://projekt-inzynierski-826a0-default-rtdb.europe-west1.firebasedatabase.app/workouts/${workoutId}.json`);
+    
+            if (response.data) {
+                console.log('Current Workout Data:', response.data);
+    
+                const currentExercises = response.data.exercises || [];
+                currentExercises[exerciseIndex] = { ...currentExercises[exerciseIndex], checked: completed };
+    
+                await axios.patch(
+                    `https://projekt-inzynierski-826a0-default-rtdb.europe-west1.firebasedatabase.app/workouts/${workoutId}.json`,
+                    { exercises: currentExercises },
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                );
+    
+                console.log('Workout Updated Successfully');
+            } else {
+                console.error('Error updating exercise status: Workout not found');
+            }
+        } catch (error) {
+            console.error('Error updating exercise status:', error);
+            Alert.alert('Failed to update exercise status.');
+        }
+    }
+    
+    
+    
+    
+
 
     function pressHandler() {
         navigation.navigate('Warmup');
@@ -62,7 +99,7 @@ function WorkoutsScreen() {
 
     function openWorkoutExercises(workout) {
         setSelectedWorkout(workout);
-        setExerciseModalVisible(true); // Open the exercise modal
+        setExerciseModalVisible(true);
     }
 
     function saveWorkoutName() {
@@ -73,13 +110,16 @@ function WorkoutsScreen() {
 
         const workoutData = {
             name: workoutName,
-            exercises: exerciseInputs,
+            exercises: exerciseInputs.map((exerciseName, index) => ({
+                name: exerciseName,
+                checked: false, // Initial status is unchecked
+            })),
         };
 
-        // Save the workout to the database
+
         saveWorkoutToDatabase(workoutData);
 
-        // Add the new workout to the state
+
         setSavedWorkouts([...savedWorkouts, { id: new Date().getTime(), ...workoutData }]);
 
         setWorkoutName('');
@@ -98,7 +138,7 @@ function WorkoutsScreen() {
     }
 
     function deleteWorkout(index, workoutId) {
-        // Remove the workout from the database
+
         deleteWorkoutFromDatabase(workoutId);
 
         const updatedWorkouts = [...savedWorkouts];
@@ -132,7 +172,7 @@ function WorkoutsScreen() {
                 </Pressable>
             </View>
 
-            {/* Render workout tiles */}
+
             {savedWorkouts.map((workout, index) => (
                 <Pressable
                     key={workout.id}
@@ -162,7 +202,7 @@ function WorkoutsScreen() {
                     <View style={styles.modalContent}>
                         <View style={{ marginLeft: 290, marginBottom: 20 }}>
                             <Pressable
-                                
+
                                 onPress={toggleAddModal}
                             >
                                 <AntDesign name="close" size={30} color="black" />
@@ -211,8 +251,13 @@ function WorkoutsScreen() {
                 </View>
             </Modal>
 
-            <WorkoutExercises isVisible={isExerciseModalVisible} selectedWorkout={selectedWorkout} onClose={() => setExerciseModalVisible(false)} />
-        </View>
+            <WorkoutExercises
+                isVisible={isExerciseModalVisible}
+                selectedWorkout={selectedWorkout}
+                onClose={() => setExerciseModalVisible(false)}
+                updateExerciseStatusInDatabase={updateExerciseStatusInDatabase}
+            />
+                    </View>
     );
 }
 
@@ -317,8 +362,8 @@ const styles = StyleSheet.create({
         zIndex: 1,
         borderRadius: 50,
         padding: 8,
-        
-        
+
+
     },
 });
 

@@ -16,17 +16,14 @@ function AffirmationsScreen() {
   const loadRandomAffirmation = async () => {
     const storedAffirmation = await AsyncStorage.getItem("randomAffirmation");
     const lastGeneratedDate = await AsyncStorage.getItem("lastGeneratedDate");
-
+  
     const today = new Date().toDateString();
-    
+  
     if (today !== lastGeneratedDate) {
-      // Reset when a new day comes
       AsyncStorage.removeItem("randomAffirmation");
       AsyncStorage.setItem("lastGeneratedDate", today);
       setIsAffirmationGenerated(false);
-    }
-
-    if (storedAffirmation) {
+    } else if (storedAffirmation) {
       setRandomAffirmation(storedAffirmation);
       setIsAffirmationGenerated(true);
     }

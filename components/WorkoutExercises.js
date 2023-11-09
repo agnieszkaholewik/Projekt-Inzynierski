@@ -2,15 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Text, View, ScrollView, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 
-const WorkoutExercises = ({ isVisible, selectedWorkout, onClose }) => {
+const WorkoutExercises = ({ isVisible, selectedWorkout, onClose, updateExerciseStatusInDatabase }) => {
     const [exerciseStatus, setExerciseStatus] = useState([]);
 
     useEffect(() => {
         if (selectedWorkout) {
-            // Extract exercise names from the "exercises" array
             setExerciseStatus(selectedWorkout.exercises.map((exercise) => ({
-                name: exercise,
-                completed: false // You don't need to save the completion status to the database
+                name: exercise.name,
+                completed: exercise.checked || false,
             })));
         }
     }, [selectedWorkout]);
@@ -40,9 +39,10 @@ const WorkoutExercises = ({ isVisible, selectedWorkout, onClose }) => {
                                             key={index}
                                             style={styles.exerciseItem}
                                             onPress={() => {
-                                                // Toggle the local state, not connected to the database
                                                 const newStatus = [...exerciseStatus];
                                                 newStatus[index].completed = !newStatus[index].completed;
+
+                                                updateExerciseStatusInDatabase(selectedWorkout.id, index, newStatus[index].completed);
                                                 setExerciseStatus(newStatus);
                                             }}
                                         >
@@ -59,7 +59,9 @@ const WorkoutExercises = ({ isVisible, selectedWorkout, onClose }) => {
                                             >
                                                 {exercise.name}
                                             </Text>
+                                            
                                         </TouchableOpacity>
+                                        
                                     );
                                 })}
                             </ScrollView>
