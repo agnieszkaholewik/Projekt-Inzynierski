@@ -79,7 +79,7 @@ function Warmup() {
               ? require('../../assets/exercises/climber.png')
               : require('../../assets/exercises/planks.png')
           }
-          duration={2}
+          duration={20}
           onComplete={handleExerciseComplete}
         />
       ) : (

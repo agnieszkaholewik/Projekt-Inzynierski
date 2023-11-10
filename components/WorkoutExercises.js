@@ -152,10 +152,11 @@ const styles = StyleSheet.create({
         textDecorationLine: 'underline',
     },
     completedCountText: {
-        fontSize: 18,
+        fontSize: 16,
         marginBottom: 20,
         textAlign: 'center',
-        marginBottom:60
+        marginBottom:60,
+        color:'grey'
     },
     button: {
         flex: 1

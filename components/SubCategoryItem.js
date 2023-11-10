@@ -61,6 +61,11 @@ function SubCategoryItem({ id, title, color, icon }) {
                 screenId: id
             });
         }
+        if (id === 's3') {
+            navigation.navigate('ProgressTrackerScreen', {
+                screenId: id
+            });
+        }
 
     }
 

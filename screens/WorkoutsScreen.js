@@ -88,13 +88,11 @@ function WorkoutsScreen() {
             if (response.data) {
                 console.log('Current Workout Data:', response.data);
 
-                // Update all exercise statuses
                 const updatedExercises = exerciseStatus.map((exercise, index) => ({
                     ...response.data.exercises[index],
                     checked: exercise.completed,
                 }));
 
-                // Update the entire exercises array in the database
                 await axios.patch(
                     `https://projekt-inzynierski-826a0-default-rtdb.europe-west1.firebasedatabase.app/workouts/${workoutId}.json`,
                     { exercises: updatedExercises },
@@ -137,7 +135,6 @@ function WorkoutsScreen() {
             return;
         }
 
-        // Check if at least three exercises are provided
         const isEnoughExercises = exerciseInputs.filter(exercise => exercise.trim() !== '').length >= 3;
         if (!isEnoughExercises) {
             Alert.alert('Please add at least three exercises.');
@@ -148,7 +145,7 @@ function WorkoutsScreen() {
             name: workoutName,
             exercises: exerciseInputs.map((exerciseName, index) => ({
                 name: exerciseName,
-                checked: false, // Initial status is unchecked
+                checked: false, 
             })),
         };
 
@@ -179,8 +176,10 @@ function WorkoutsScreen() {
 
 
     return (
+        <ScrollView>
         <View style={{ marginTop: 20 }}>
             <View style={styles.gridItem}>
+            
                 <Pressable
                     android_ripple={{ opacity: 0.5 }}
                     style={({ pressed }) => [styles.button, pressed ? styles.buttonPressed : styles.button]}
@@ -204,6 +203,7 @@ function WorkoutsScreen() {
                 </Pressable>
             </View>
 
+           
 
             {savedWorkouts.map((workout, index) => (
                 <Pressable
@@ -212,9 +212,11 @@ function WorkoutsScreen() {
                     style={({ pressed }) => [styles.gridItem, pressed ? styles.buttonPressed : null]}
                     onPress={() => openWorkoutExercises(workout)} // Pass the workout data
                 >
-                    <View style={styles.warmupContainer}>
+                
+                    <View style={[styles.warmupContainer, {backgroundColor:"#2E4374"}]}>
                         <Text style={styles.title}>{workout.name}</Text>
                     </View>
+                    
                     <Pressable
                         android_ripple={{ opacity: 0.5 }}
                         style={styles.deleteButton}
@@ -224,6 +226,7 @@ function WorkoutsScreen() {
                     </Pressable>
                 </Pressable>
             ))}
+           
 
             <Modal
                 animationType="slide"
@@ -291,6 +294,7 @@ function WorkoutsScreen() {
                 updateAllExerciseStatusInDatabase={updateAllExerciseStatusInDatabase} // Add this prop
             />
         </View>
+        </ScrollView>
     );
 }
 
