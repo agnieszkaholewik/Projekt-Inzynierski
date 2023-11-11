@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, Button, Platform, TouchableWithoutFeedback, Keyboard, Switch, Pressable} from 'react-native';
+import { View, Text, FlatList, Button, Platform, TouchableWithoutFeedback, Keyboard, Switch, Pressable } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as Notifications from 'expo-notifications';
 import { StyleSheet } from "react-native";
@@ -28,12 +28,12 @@ export default function Exercise() {
         loadNotifications();
     }, []);
 
-    const saveNotifications = async (updatedNotifications) => {
+    const saveNotification = async (notification) => {
         try {
-            await axios.put(`${databaseURL}/exerciseNotifications.json`, updatedNotifications);
-            console.log("Notifications saved to Firebase Realtime Database");
+            await axios.post(`${databaseURL}/exerciseNotifications/${notification.id}.json`, notification);
+            console.log("Notification saved to Firebase Realtime Database");
         } catch (error) {
-            console.error("Error saving exerciseNotifications:", error);
+            console.error("Error saving notification:", error);
         }
     };
 
@@ -93,17 +93,40 @@ export default function Exercise() {
 
         const updatedNotifications = [...notifications, newNotification];
         setNotifications(updatedNotifications);
-        saveNotifications(updatedNotifications); // Save the updated notifications to the database
+        saveNotification(newNotification); 
         setDate(new Date());
         setShowDatePicker(false);
     };
 
     const removeNotification = async (id) => {
-        const updatedNotifications = notifications.filter((notification) => notification.id !== id);
-        setNotifications(updatedNotifications);
-        saveNotifications(updatedNotifications); // Save the updated notifications to the database
-        await Notifications.cancelScheduledNotificationAsync(id);
+        console.log("Removing notification with ID:", id);
+
+        try {
+            
+            const updatedNotifications = notifications.filter((notification) => notification.id !== id);
+
+            
+            
+            await Notifications.cancelScheduledNotificationAsync(id);
+            console.log("cancelled");
+
+
+            
+            await axios.delete(`${databaseURL}/exerciseNotifications/${id}.json`);
+            console.log("Notification removed from Firebase Realtime Database");
+
+            
+            setNotifications(updatedNotifications);
+
+            console.log("Notification removal process completed");
+        } catch (error) {
+            console.error("Error removing notification:", error);
+        }
     };
+
+
+
+
 
     const showDatepicker = () => {
         setShowDatePicker(true);
@@ -126,11 +149,12 @@ export default function Exercise() {
             <Text>{item.repeatDaily ? 'Repeats daily' : 'Does not repeat'}</Text>
             <Button
                 title="Delete"
-                onPress={() => removeNotification(item.id)}
+                onPress={() => removeNotification(item.id)} 
                 color="red"
             />
         </View>
     );
+    
 
     return (
         <TouchableWithoutFeedback onPress={dismissKeyboard}>
@@ -163,9 +187,10 @@ export default function Exercise() {
                 <FlatList
                     data={notifications}
                     renderItem={renderItem}
-                    keyExtractor={(item) => item.id}
+                    keyExtractor={(item) => item.id}  
                     style={styles.list}
                 />
+
             </View>
         </TouchableWithoutFeedback>
     );

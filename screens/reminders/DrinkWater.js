@@ -90,21 +90,33 @@ export default function DrinkWater() {
             repeatDaily,
         };
 
-        // Add the new notification to the state
+        
         const updatedNotifications = [...notifications, newNotification];
         setNotifications(updatedNotifications);
         setDate(new Date());
         setShowDatePicker(false);
-        saveNotifications(updatedNotifications); // Save the updated notifications to the database
+        saveNotifications(updatedNotifications); 
     };
 
     const removeNotification = async (id) => {
-        setNotifications((prevNotifications) =>
-            prevNotifications.filter((notification) => notification.id !== id)
-        );
-        saveNotifications([...notifications.filter((notification) => notification.id !== id)]); // Save the updated notifications to the database
-        await Notifications.cancelScheduledNotificationAsync(id);
+        try {
+            await Notifications.cancelScheduledNotificationAsync(id);
+    
+            setNotifications((prevNotifications) =>
+                prevNotifications.filter((notification) => notification.id !== id)
+            );
+    
+            const updatedNotifications = notifications.filter(
+                (notification) => notification.id !== id
+            );
+    
+            saveNotifications(updatedNotifications);
+        } catch (error) {
+            console.error("Error canceling notification:", error);
+        }
     };
+    
+      
 
     const showDatepicker = () => {
         setShowDatePicker(true);
